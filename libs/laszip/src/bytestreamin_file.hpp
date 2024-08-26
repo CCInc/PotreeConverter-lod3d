@@ -39,7 +39,7 @@
 
 #if defined(_MSC_VER) && (_MSC_VER < 1300)
 extern "C" __int64 _cdecl _ftelli64(FILE*);
-extern "C" int _cdecl _fseeki64(FILE*, __int64, int);
+extern "C" int _cdecl fseeko64(FILE*, __int64, int);
 #endif
 
 class ByteStreamInFile : public ByteStreamIn
@@ -148,7 +148,7 @@ inline BOOL ByteStreamInFile::seek(const I64 position)
   if (tell() != position)
   {
 #if defined _WIN32 && ! defined (__MINGW32__)
-    return !(_fseeki64(file, position, SEEK_SET));
+    return !(fseeko64(file, position, SEEK_SET));
 #elif defined (__MINGW32__)
     return !(fseeko64(file, (off_t)position, SEEK_SET));
 #else
@@ -161,7 +161,7 @@ inline BOOL ByteStreamInFile::seek(const I64 position)
 inline BOOL ByteStreamInFile::seekEnd(const I64 distance)
 {
 #if defined _WIN32 && ! defined (__MINGW32__)
-  return !(_fseeki64(file, -distance, SEEK_END));
+  return !(fseeko64(file, -distance, SEEK_END));
 #elif defined (__MINGW32__)
   return !(fseeko64(file, (off_t)-distance, SEEK_END));
 #else

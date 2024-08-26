@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <thread>
 #include <cstdint>
+#include <cstring>
 
 using std::cout;
 using std::endl;
@@ -406,7 +407,7 @@ inline vector<uint8_t> readBinaryFile(string path, uint64_t start, uint64_t size
 		vector<uint8_t> buffer(clampedSize);
 		//file.seekg(start, ios::beg);
 		//file.read(reinterpret_cast<char*>(buffer.data()), clampedSize);
-		_fseeki64(file, start, SEEK_SET);
+		fseeko64(file, start, SEEK_SET);
 		fread(buffer.data(), 1, clampedSize, file);
 		fclose(file);
 
@@ -415,7 +416,7 @@ inline vector<uint8_t> readBinaryFile(string path, uint64_t start, uint64_t size
 		vector<uint8_t> buffer(size);
 		//file.seekg(start, ios::beg);
 		//file.read(reinterpret_cast<char*>(buffer.data()), size);
-		_fseeki64(file, start, SEEK_SET);
+		fseeko64(file, start, SEEK_SET);
 		fread(buffer.data(), 1, size, file);
 		fclose(file);
 
@@ -433,11 +434,11 @@ inline void readBinaryFile(string path, uint64_t start, uint64_t size, void* tar
 	}if (start + size > totalSize) {
 		auto clampedSize = totalSize - start;
 
-		_fseeki64(file, start, SEEK_SET);
+		fseeko64(file, start, SEEK_SET);
 		fread(target, 1, clampedSize, file);
 		fclose(file);
 	} else {
-		_fseeki64(file, start, SEEK_SET);
+		fseeko64(file, start, SEEK_SET);
 		fread(target, 1, size, file);
 		fclose(file);
 	}
@@ -541,7 +542,7 @@ T read(vector<uint8_t>& buffer, int offset) {
 
 inline string leftPad(string in, int length, const char character = ' ') {
 
-	auto reps = std::max(length - in.size(), 0ull);
+	auto reps = std::max(length - in.size(), 0ul);
 	string result = string(reps, character) + in;
 
 	return result;

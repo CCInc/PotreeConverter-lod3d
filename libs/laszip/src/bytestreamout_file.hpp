@@ -38,7 +38,7 @@
 #include <stdio.h>
 
 #if defined(_MSC_VER) && (_MSC_VER < 1300)
-extern "C" int _cdecl _fseeki64(FILE*, __int64, int);
+extern "C" int _cdecl fseeko64(FILE*, __int64, int);
 extern "C" __int64 _cdecl _ftelli64(FILE*);
 #endif
 
@@ -147,7 +147,7 @@ inline I64 ByteStreamOutFile::tell() const
 inline BOOL ByteStreamOutFile::seek(I64 position)
 {
 #if defined _WIN32 && ! defined (__MINGW32__)
-  return !(_fseeki64(file, position, SEEK_SET));
+  return !(fseeko64(file, position, SEEK_SET));
 #elif defined (__MINGW32__)
   return !(fseeko64(file, (off_t)position, SEEK_SET));
 #else
@@ -158,7 +158,7 @@ inline BOOL ByteStreamOutFile::seek(I64 position)
 inline BOOL ByteStreamOutFile::seekEnd()
 {
 #if defined _WIN32 && ! defined (__MINGW32__)
-  return !(_fseeki64(file, 0, SEEK_END));
+  return !(fseeko64(file, 0, SEEK_END));
 #elif defined (__MINGW32__)
   return !(fseeko64(file, (off_t)0, SEEK_END));
 #else

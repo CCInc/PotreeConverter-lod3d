@@ -73,9 +73,9 @@ struct SamplerRandom : public Sampler {
 				int64_t y = double(gridSize) * ny;
 				int64_t z = double(gridSize) * nz;
 
-				x = std::max(0ll, std::min(x, gridSize - 1));
-				y = std::max(0ll, std::min(y, gridSize - 1));
-				z = std::max(0ll, std::min(z, gridSize - 1));
+				x = std::max(0l, std::min(x, gridSize - 1));
+				y = std::max(0l, std::min(y, gridSize - 1));
+				z = std::max(0l, std::min(z, gridSize - 1));
 
 				int64_t index = x + y * gridSize + z * gridSize * gridSize;
 

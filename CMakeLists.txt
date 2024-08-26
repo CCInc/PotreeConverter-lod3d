@@ -31,7 +31,13 @@ list(APPEND CONVERTER_LIBRARIES
     tinyply
 )
 
-link_directories("${CMAKE_CURRENT_SOURCE_DIR}/libs/laszip")
+# link_directories("${CMAKE_CURRENT_SOURCE_DIR}/libs/laszip")
+# add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/libs/laszip")
+add_library( laszip3 SHARED IMPORTED GLOBAL)
+set_target_properties( laszip3 PROPERTIES IMPORTED_LOCATION /home/chris/miniconda3/envs/laszip/lib/liblaszip.so )
+
+find_package(Threads REQUIRED)
+find_package(TBB REQUIRED)
 
 # Set the source files.
 aux_source_directory(src SRC_FILES)
@@ -41,5 +47,5 @@ aux_source_directory(modules/unsuck SRC_FILES)
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CONVERTER_INCLUDES})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${CONVERTER_LIBRARIES} laszip3 ${PCL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${CONVERTER_LIBRARIES} laszip3 ${PCL_LIBRARIES} Threads::Threads TBB::tbb)
 
